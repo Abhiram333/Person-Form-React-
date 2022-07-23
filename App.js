@@ -1,50 +1,65 @@
 import "./styles.css";
 import React, { useState } from "react";
 function AddPerson(props) {
-  const [addData, setAddData] = useState({
-    Name: "",
-    Address: ""
-  });
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
 
-  function ChangeForm(event) {
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { addData };
-    newFormData[fieldName] = fieldValue;
-
-    setAddData(newFormData);
-
-    const newPerson = {
-      Name: addData.Name,
-      Address: addData.Address
-    };
-
-    const newPersons = [props.persons, newPerson];
-    props.setPersons(newPersons);
-    props.persons = newPersons;
+  function onNameChange(event) {
+    console.log(event.target.value);
+    setName(event.target.value);
   }
+
+  function onAddressChange(event) {
+    setAddress(event.target.value);
+  }
+
+  function onAddSubmit() {
+    var person = { name: name, address: address };
+    var persons = [...props.persons, person];
+    props.setPersons(persons);
+  }
+
+  // function ChangeForm(event) {
+  //   const fieldName = event.target.getAttribute("name");
+  //   const fieldValue = event.target.value;
+
+  //   const newFormData = { addData };
+  //   newFormData[fieldName] = fieldValue;
+
+  //   setAddData(newFormData);
+
+  //   const newPerson = {
+  //     Name: addData.Name,
+  //     Address: addData.Address
+  //   };
+
+  //   const newPersons = [props.persons, newPerson];
+  //   props.setPersons(newPersons);
+  //   props.persons = newPersons;
+  // }
 
   return (
     <div>
       <h2>Add a Person</h2>
-      <form>
-        <input
-          type="text"
-          name="Name"
-          required="required"
-          placeholder="Enter a name..."
-          onChange={ChangeForm}
-        />
-        <input
-          type="text"
-          name="Address"
-          required="required"
-          placeholder="Enter your address..."
-          onChange={ChangeForm}
-        />
-        {/* <button type="submit">Add</button> */}
-      </form>
+      <input
+        type="text"
+        name="Name"
+        required="required"
+        placeholder="Enter a name..."
+        value={name}
+        onChange={onNameChange}
+      />
+      <input
+        type="text"
+        name="Address"
+        required="required"
+        placeholder="Enter your address..."
+        value={address}
+        onChange={onAddressChange}
+      />
+      <button type="submit" onClick={onAddSubmit}>
+        Add
+      </button>
     </div>
   );
 }
@@ -64,6 +79,18 @@ function PersonList(props) {
 function Person(props) {
   return (
     <div>
+       {/* <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+          <td>{props.name}</td>
+          <td>{props.address}</td>
+          </tbody>
+        </table> */}
       <h2>Hello {props.name}</h2>
       <h2>Your address is {props.address}</h2>
     </div>
@@ -71,17 +98,17 @@ function Person(props) {
 }
 
 export default function App() {
-  var persons = [
+  const [persons, setPersons] = useState([
     { name: "Abhiram", address: "US" },
     { name: "Srinath", address: "Arizona" }
-  ];
-  const [Persons, setPersons] = useState(persons);
+  ]);
+
   return (
     <div className="App">
       <h1>Hello User</h1>
       {/* <Person name="Srinath" address="US" /> */}
       <PersonList persons={persons} />
-      <AddPerson setPersons={setPersons} persons={persons} />
+      <AddPerson persons={persons} setPersons={setPersons} />
     </div>
   );
 }
