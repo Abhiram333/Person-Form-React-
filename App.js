@@ -19,25 +19,6 @@ function AddPerson(props) {
     props.setPersons(persons);
   }
 
-  // function ChangeForm(event) {
-  //   const fieldName = event.target.getAttribute("name");
-  //   const fieldValue = event.target.value;
-
-  //   const newFormData = { addData };
-  //   newFormData[fieldName] = fieldValue;
-
-  //   setAddData(newFormData);
-
-  //   const newPerson = {
-  //     Name: addData.Name,
-  //     Address: addData.Address
-  //   };
-
-  //   const newPersons = [props.persons, newPerson];
-  //   props.setPersons(newPersons);
-  //   props.persons = newPersons;
-  // }
-
   return (
     <div>
       <h2>Add a Person</h2>
@@ -63,15 +44,44 @@ function AddPerson(props) {
     </div>
   );
 }
+function ResetPerson(props) {
+  const [resetpersons, setResetPersons] = useState([
+    { name: "Abhiram", address: "US" },
+    { name: "Srinath", address: "Arizona" },
+    { name: "Srinidhi", address: "Yuma" }
+  ]);
+
+  function onReset() {
+    props.setPersons(resetpersons);
+  }
+
+  return (
+    <div>
+      <button type="submit" onClick={onReset}>
+        Reset
+      </button>
+    </div>
+  );
+}
 
 function PersonList(props) {
   return (
     <div>
-      {props.persons.map((person) => (
-        <div>
-          <Person name={person.name} address={person.address} />
-        </div>
-      ))}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.persons.map((person) => (
+            <div>
+              <Person name={person.name} address={person.address} />
+            </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -79,7 +89,7 @@ function PersonList(props) {
 function Person(props) {
   return (
     <div>
-       {/* <table>
+      {/* <table>
           <thead>
             <tr>
               <th>Name</th>
@@ -91,8 +101,8 @@ function Person(props) {
           <td>{props.address}</td>
           </tbody>
         </table> */}
-      <h2>Hello {props.name}</h2>
-      <h2>Your address is {props.address}</h2>
+      <td> {props.name}</td>
+      <td> {props.address}</td>
     </div>
   );
 }
@@ -100,7 +110,8 @@ function Person(props) {
 export default function App() {
   const [persons, setPersons] = useState([
     { name: "Abhiram", address: "US" },
-    { name: "Srinath", address: "Arizona" }
+    { name: "Srinath", address: "Arizona" },
+    { name: "Srinidhi", address: "Yuma" }
   ]);
 
   return (
@@ -109,6 +120,7 @@ export default function App() {
       {/* <Person name="Srinath" address="US" /> */}
       <PersonList persons={persons} />
       <AddPerson persons={persons} setPersons={setPersons} />
+      <ResetPerson persons={persons} setPersons={setPersons} />
     </div>
   );
 }
