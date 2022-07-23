@@ -1,3 +1,4 @@
 # Person-Form-React-
 2nd Person Form written in react
-Add Person does not work yet
+Reset and Add Person works
+Table still not working properly
